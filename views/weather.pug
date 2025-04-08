@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  .weather-container
+    h1.weather-header Weather Forecast
+      i.fas.fa-cloud-sun
+    
+    form.weather-search(method="GET" action="/weather")
+      .search-input-group
+        input(
+          type="text" 
+          name="city" 
+          placeholder="Enter city name" 
+          value=city || ''
+          aria-label="Enter city name for weather forecast"
+        )
+        button.search-button(type="submit")
+          i.fas.fa-search
+          span Search
+
+    
+    if error
+      .weather-error
+        i.fas.fa-exclamation-triangle
+        p= error
+    
+    if weather
+      .weather-card
+        .weather-current
+          h2 Current Weather in #{city}
+          .weather-main
+            .temp= weather.temperature
+            .description= weather.description
+          .weather-details
+            .detail
+              i.fas.fa-wind
+              span Wind: #{weather.wind}
+            .detail
+              i.fas.fa-tint
+              span Humidity: #{weather.humidity || 'N/A'}
+        
+        if weather.forecast && weather.forecast.length > 0
+          h3.forecast-header 3-Day Forecast
+          .forecast-grid
+            each day in weather.forecast
+              .forecast-day
+                h4= day.day
+                p.temp= day.temperature
+                p= day.wind
+    
+    a.button.back-button(href="/")
+      i.fas.fa-arrow-left
+      | Back to Home

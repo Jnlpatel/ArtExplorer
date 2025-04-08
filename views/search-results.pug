@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  .search-results-container
+    .results-header
+      h1.search-title
+        i.fas.fa-search
+        | Search Results for "#{query}"
+      
+      if artworks.length > 0
+        .results-count #{artworks.length} artworks found
+    
+    if artworks.length > 0
+      .artwork-grid
+        each artwork in artworks
+          .artwork-card
+            a.artwork-link(href=`/artwork/${artwork.objectID}`)
+              .image-container
+                if artwork.primaryImageSmall
+                  img.artwork-image(
+                    src=artwork.primaryImageSmall 
+                    alt=artwork.title
+                    loading="lazy"
+                  )
+                  .image-overlay
+                    i.fas.fa-eye
+                    span View Details
+                else
+                  .no-image
+                    i.fas.fa-image
+                    span No Image Available
+              .artwork-info
+                h3.artwork-title= artwork.title
+                p.artwork-artist= artwork.artistDisplayName || 'Unknown Artist'
+                if artwork.objectDate
+                  p.artwork-era= artwork.objectDate
+                if artwork.medium
+                  p.artwork-medium= artwork.medium
+    
+    else
+      .no-results
+        i.fas.fa-search-minus
+        h2 No artworks found matching "#{query}"
+        p Try different keywords or browse our collections:
+        .suggestions
+          a.suggestion-btn(href="/search?query=painting") Paintings
+          a.suggestion-btn(href="/search?query=sculpture") Sculptures
+          a.suggestion-btn(href="/search?query=photography") Photography
+    
+    .results-footer
+      a.button(href="/")
+        i.fas.fa-arrow-left
+        | ← Back to Home

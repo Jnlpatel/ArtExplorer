@@ -1,0 +1,62 @@
+extends layout
+
+block content
+  .artwork-detail-container
+    //- Artwork Main Section
+    section.artwork-main
+      .artwork-visual
+        if artwork.primaryImage
+          img.artwork-image(src=artwork.primaryImage alt=artwork.title)
+        else
+          .no-image-large No Image Available
+      
+      .artwork-info
+        h1.artwork-title= artwork.title
+        p.artwork-artist= artwork.artistDisplayName || 'Artist Unknown'
+        
+        .artwork-meta
+          if artwork.objectDate
+            .meta-item
+              span.meta-label Date:
+              span.meta-value= artwork.objectDate
+          
+          if artwork.medium
+            .meta-item
+              span.meta-label Medium:
+              span.meta-value= artwork.medium
+          
+          if artwork.dimensions
+            .meta-item
+              span.meta-label Dimensions:
+              span.meta-value= artwork.dimensions
+          
+          if artwork.creditLine
+            .meta-item
+              span.meta-label Credit:
+              span.meta-value= artwork.creditLine
+        
+        if artwork.repository
+          .museum-cta
+            h2 Located at #{artwork.repository}
+            if museumLocation
+              a.button.button-accent(href=`/museum/${encodeURIComponent(artwork.repository)}` target="_blank") 
+                | View Museum Details →
+            else
+              p.location-unavailable Location information not currently available
+
+    //- Related Artworks Section
+    if relatedArtworks && relatedArtworks.length > 0
+      section.related-artworks
+        h2 Related Artworks
+        .related-grid
+          each related in relatedArtworks.slice(0, 4)
+            .related-card
+              a(href=`/artwork/${related.objectID}`)
+                if related.primaryImageSmall
+                  img(src=related.primaryImageSmall alt=related.title)
+                else
+                  .no-image-small No Image
+                h3= related.title
+                p= related.artistDisplayName || 'Unknown Artist'
+
+    a.button.back-button(href="/") ← Back to Gallery

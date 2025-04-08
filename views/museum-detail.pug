@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  .museum-detail
+    h1= museumName
+    
+    if location
+      
+      .location-info
+        h2 Address
+        p= location.display_name
+        
+        if location.address
+          .address-details
+            if location.address.road
+              p= location.address.road
+            if location.address.city
+              p= location.address.city
+            if location.address.country
+              p= location.address.country
+          a.button(
+            href=`https://www.openstreetmap.org/?mlat=${location.lat}&mlon=${location.lon}#map=15/${location.lat}/${location.lon}`
+            target="_blank"
+          ) View Larger Map
+    else
+      p.location-info Location information not available
+  
+  a.button(href="/") Back to Home

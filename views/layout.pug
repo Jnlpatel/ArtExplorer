@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title Art Explorer
+    link(rel='stylesheet', href='/styles.css')
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    header
+      .header-container
+        h1 
+          a(href="/") Art Explorer & Museum
+        nav
+          ul.nav-menu
+            li.nav-item
+              a(href="/") 
+                i.fas.fa-home
+                span Home
+            li.nav-item
+              a(href="/weather") 
+                i.fas.fa-cloud-sun
+                span Weather
+    main
+      block content
+    footer
+      .footer-container
+        p &copy; #{new Date().getFullYear()} Art Explorer

@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  .search-hero
+    .hero-content
+      h1 Discover Art Masterpieces
+      p Explore thousands of artworks from world-renowned museums
+
+      .search-box
+        form.search-form(action="/search" method="GET")
+          .search-input-group
+            input.search-input(
+              type="text" 
+              name="query" 
+              placeholder="Search by artist, title, or keyword..." 
+              required
+              aria-label="Search artworks"
+            )
+            button.search-button(type="submit")
+              i.fas.fa-search
+              span Search
+
+  if featuredArtworks
+    .featured-section
+      .section-header
+        h2 Featured Artworks
+      
+      .artwork-grid
+        each artwork in featuredArtworks
+          .artwork-card
+            a.artwork-link(href=`/artwork/${artwork.objectID}`)
+              .artwork-image-container
+                if artwork.primaryImageSmall
+                  img.artwork-image(
+                    src=artwork.primaryImageSmall 
+                    alt=artwork.title
+                    loading="lazy"
+                  )
+                  .image-overlay
+                    i.fas.fa-expand
+                else
+                  .no-image
+                    i.fas.fa-image
+                    span No Image Available
+              .artwork-info
+                h3.artwork-title= artwork.title
+                p.artwork-artist= artwork.artistDisplayName || 'Unknown Artist'
+                if artwork.objectDate
+                  p.artwork-date= artwork.objectDate
